@@ -44,21 +44,26 @@ const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction): 
 
 // Middleware para verificar permissões antes de permitir o acesso a uma rota
 const checkPermission = (nomeTabela: string, acao: string) => {
+
   return async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
     const usuario = req.user;
-    
+ 
     if (!usuario) {
       res.status(401).json({ message: 'Usuário não autenticado!' });
       return;
     }
 
+
     // Carregar as permissões do banco de dados
     const permissoes = await Permissoes.findAll({
+      
       where: {
         Usuarios_idUsuario: usuario.id,
         NomeTabela: nomeTabela
+        
       }
     });
+    console.log(permissoes);
 
     if (!permissoes || permissoes.length === 0) {
       res.status(403).json({ message: 'Permissão insuficiente para acessar essa tabela.' });

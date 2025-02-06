@@ -5,20 +5,24 @@ import { checkPermission } from '../middlewares/authMiddleware'; // Importando o
 
 // Função para buscar todos os clientes
 export const getClientes = [
-  checkPermission('Cliente', 'ler'), // Verifica permissão de leitura
+  checkPermission('Clientes', 'ler'), // Verifica permissão de leitura
   async (req: Request, res: Response) => {
     try {
       const clientes = await Cliente.findAll();
+      //const clientes2 = await Cliente.findByPk(11);
+      //console.log(clientes2, "2222"); //apagar
       res.json(clientes);
+      //console.log(clientes, "FFFF"); //apagar
     } catch (error) {
       res.status(500).json({ message: 'Erro ao buscar clientes' });
+      
     }
   },
 ];
 
 // Função para criar um novo cliente
 export const createCliente = [
-  checkPermission('Cliente', 'criar'), // Verifica permissão de criação
+  checkPermission('Clientes', 'criar'), // Verifica permissão de criação
   async (req: Request, res: Response): Promise<void> => {
     try {
       const {
@@ -47,6 +51,13 @@ export const createCliente = [
         return;
       }
 
+      // Verificar se o Email já existe
+      const EmailclienteEmUso = await Cliente.findOne({ where: { Email } });
+      if (EmailclienteEmUso) {
+        res.status(400).json({ message: "Email já está em uso." });
+        return;
+      }
+
       // Criar o novo cliente
       const cliente = await Cliente.create({
         Nome,
@@ -70,13 +81,14 @@ export const createCliente = [
       res.status(201).json(cliente);
     } catch (error) {
       res.status(500).json({ message: 'Erro ao criar cliente' });
+      console.log(error);
     }
   },
 ];
 
 // Função para excluir um cliente
 export const deleteCliente = [
-  checkPermission('Cliente', 'deletar'), // Verifica permissão de deletar
+  checkPermission('Clientes', 'deletar'), // Verifica permissão de deletar
   async (req: Request, res: Response): Promise<void> => {
     try {
       const { idCliente } = req.params;
@@ -97,7 +109,7 @@ export const deleteCliente = [
 
 // Função para atualizar os dados de um cliente
 export const updateCliente = [
-  checkPermission('Cliente', 'atualizar'), // Verifica permissão de atualizar
+  checkPermission('Clientes', 'atualizar'), // Verifica permissão de atualizar
   async (req: Request, res: Response): Promise<void> => {
     try {
       const { idCliente } = req.params;
@@ -154,7 +166,7 @@ export const updateCliente = [
 // Função para buscar cliente por CPF/CNPJ
 
 export const getClienteByCPF_CNPJ = [
-  checkPermission('Cliente', 'ler'), // Verifica permissão de leitura
+  checkPermission('Clientes', 'ler'), // Verifica permissão de leitura
   async (req: Request, res: Response): Promise<void> => {
     try {
       const { CPF_CNPJ } = req.params;
@@ -174,7 +186,8 @@ export const getClienteByCPF_CNPJ = [
 
 // Função para buscar cliente por ID
 export const getClienteById = [
-  checkPermission('Cliente', 'ler'), // Verifica permissão de leitura
+  checkPermission('Clientes', 'ler'), // Verifica permissão de leitura
+  
   async (req: Request, res: Response): Promise<void> => {
     try {
       const { idCliente } = req.params;

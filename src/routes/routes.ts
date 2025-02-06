@@ -51,11 +51,11 @@ router.put('/veiculos/:idVeiculo', authMiddleware, checkPermission('Veiculo', 'a
 router.delete('/veiculos/:idVeiculo', authMiddleware, checkPermission('Veiculo', 'deletar'), deleteVeiculo); // Verificando permissão 'deletar' para a tabela 'Veiculos'
 
 // Rotas de clientes
-router.get('/clientes', authMiddleware, checkPermission('Cliente', 'ler'), getClientes); // Verificando permissão 'ler' para a tabela 'Clientes'
-router.post('/clientes', authMiddleware, checkPermission('Cliente', 'criar'), createCliente); // Verificando permissão 'criar' para a tabela 'Clientes'
-router.get('/clientes/cpfcnpj/:CPF_CNPJ', authMiddleware, checkPermission('Cliente', 'ler'), getClienteByCPF_CNPJ); // Verificando permissão 'ler' para a tabela 'Clientes'
-router.get('/clientes/:idCliente', authMiddleware, checkPermission('Cliente', 'ler'), getClienteById); // Verificando permissão 'ler' para a tabela 'Clientes'
-router.put('/clientes/:idCliente', authMiddleware, checkPermission('Cliente', 'atualizar'), updateCliente); // Verificando permissão 'atualizar' para a tabela 'Clientes'
-router.delete('/clientes/:idCliente', authMiddleware, checkPermission('Cliente', 'deletar'), deleteCliente); // Verificando permissão 'deletar' para a tabela 'Clientes'
+router.get('/clientes', authMiddleware, checkPermission('Clientes', 'ler'), getClientes); // Verificando permissão 'ler' para a tabela 'Clientes'
+router.post('/clientes', authMiddleware, checkPermission('Clientes', 'criar'), createCliente); // Verificando permissão 'criar' para a tabela 'Clientes'
+router.get('/clientes/cpfcnpj/:CPF_CNPJ', authMiddleware, checkPermission('Clientes', 'ler'), getClienteByCPF_CNPJ); // Verificando permissão 'ler' para a tabela 'Clientes'
+router.get('/clientes/:idCliente', authMiddleware, checkPermission('Clientes', 'ler'), getClienteById); // Verificando permissão 'ler' para a tabela 'Clientes'
+router.put('/clientes/:idCliente', authMiddleware, checkPermission('Clientes', 'atualizar'), updateCliente); // Verificando permissão 'atualizar' para a tabela 'Clientes'
+router.delete('/clientes/:idCliente', authMiddleware, checkPermission('Clientes', 'deletar'), deleteCliente); // Verificando permissão 'deletar' para a tabela 'Clientes'
 
 export default router;
