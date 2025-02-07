@@ -9,7 +9,8 @@ import {
   getUsuarioByCpfCnpj, 
   getUsuarioByEmail, 
   getUsuarioById,
-  getUsuariosByLoja
+  getUsuariosByLoja,
+  getUsuariosMyLoja 
 } from '../controllers/userController';
 import { 
   getVeiculos, 
@@ -25,7 +26,8 @@ import {
   updateCliente, 
   deleteCliente, 
   getClienteByCPF_CNPJ, 
-  getClienteById 
+  getClienteById
+  
 } from '../controllers/clientesController'; // Importando as funções de cliente
 import { authMiddleware, checkPermission } from '../middlewares/authMiddleware';
 
@@ -35,7 +37,7 @@ const router = express.Router();
 router.post('/login', login);
 
 // Rotas de usuários
-router.get('/usuarios', authMiddleware, checkPermission('Usuarios', 'ler'), getUsuarios); // Lista todos usuário de todas as lojas
+router.get('/usuarios', authMiddleware, checkPermission('Usuarios', 'ler'), getUsuariosMyLoja); // Lista todos usuário de todas as lojas
 router.post('/usuarios', authMiddleware, checkPermission('Usuarios', 'criar'), createUsuario); // Verificando permissão 'criar' para a tabela 'Usuarios'
 router.get('/usuarios/cpfcnpj/:CPF_CNPJ', authMiddleware, checkPermission('Usuarios', 'ler'), getUsuarioByCpfCnpj); // Verificando permissão 'ler' para a tabela 'Usuarios'
 router.get('/usuarios/email/:Email', authMiddleware, checkPermission('Usuarios', 'ler'), getUsuarioByEmail); // Verificando permissão 'ler' para a tabela 'Usuarios'

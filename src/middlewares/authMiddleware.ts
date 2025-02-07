@@ -2,6 +2,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { Permissoes } from '../models/permissoes'; // Supondo que você tenha um model Permissoes
+import { Usuario } from '../models/usuarios';
 
 interface JwtPayload {
   id: number;
@@ -49,12 +50,37 @@ const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction): 
 const checkPermission = (nomeTabela: string, acao: string) => {
 
   return async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
-    const usuario = req.user;
+    
+    const usuario = req.user; // Pegando os dados do req
+    const idUsuarioReq  =  Number(req.params.idUsuario); // Obter o id do usuario do req
+    //const idUsuario  =  Number(req.user?.id); // Obter o id do usuario do req
+    const idLojaToken = Number(req.user?.loja); // Obter o id da loja do Token
+    
+
+    //console.log(idUsuarioReq, "IDUserREQ", );
+    //console.log(idUsuario, "IDUserTOKEN", idLojaToken, "IDLojaToken");
+    
  
     if (!usuario) {
       res.status(401).json({ message: 'Usuário não autenticado!' });
       return;
     }
+
+        // Verificar se o usuário está no banco de dados
+        const usuarioNoBanco = await Usuario.findOne({ where: { idUsuario: idUsuarioReq } });
+        
+        //console.log(usuarioNoBanco, "BDDDDDD");
+        
+        if (!usuarioNoBanco) {
+          res.status(404).json({ message: 'Usuário não encontrado no banco de dados.' });
+          return;
+        }
+
+    // Verificar se o idLoja do token e o Lojas_idLoja do usuário coincidem
+    if (usuarioNoBanco.Lojas_idLoja !== idLojaToken) {
+        res.status(403).json({ message: 'Verifique a Loja a qual o usuário pertence.' });
+     return;
+     }
 
 
     // Carregar as permissões do banco de dados
@@ -73,6 +99,10 @@ const checkPermission = (nomeTabela: string, acao: string) => {
       res.status(403).json({ message: 'Permissão insuficiente para acessar essa tabela.' });
       return;
     }
+
+
+
+    
 
     // Verifica a permissão de acordo com a ação solicitada
     const permissao = permissoes[0]; // Assumindo que temos no máximo 1 permissão por tabela

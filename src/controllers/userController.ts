@@ -16,7 +16,7 @@ interface CustomRequest extends Request {
 }
 
 
-export const getUsuarios3 = async (req: Request, res: Response) => {
+export const getUsuarios = async (req: Request, res: Response) => {
   try {
     
     const usuarios = await Usuario.findAll({
@@ -35,6 +35,9 @@ export const getUsuarios3 = async (req: Request, res: Response) => {
     //console.log(error);
   }
 };
+
+
+
 
 export const createUsuario = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -74,9 +77,7 @@ export const createUsuario = async (req: Request, res: Response): Promise<void> 
 export const deleteUsuario = async (req: CustomRequest, res: Response): Promise<void> => {
   try {
     const { idUsuario } = req.params;
-    const user = req.user; // Pegando os dados do token
-    const idLoja = user?.loja; // Obter o id da loja do token
-    const idLojaNumber = Number(idLoja);
+    
 
     // Verificar se o idLoja do token e o Lojas_idLoja do usuário coincidem
     const usuario = await Usuario.findOne({ where: { idUsuario } });
@@ -84,11 +85,14 @@ export const deleteUsuario = async (req: CustomRequest, res: Response): Promise<
       res.status(404).json({ message: 'Usuário não encontrado' });
       return;
     }
-
-    if (usuario.Lojas_idLoja !== idLojaNumber) {
-      res.status(403).json({ message: 'Você não tem permissão para excluir este usuário.' });
-      return;
-    }
+    // Verificar se o idLoja do token e o Lojas_idLoja do usuário coincidem
+    // const user = req.user; // Pegando os dados do token
+    // const idLoja = user?.loja; // Obter o id da loja do token
+    // const idLojaNumber = Number(idLoja);
+    // if (usuario.Lojas_idLoja !== idLojaNumber) {
+    //   res.status(403).json({ message: 'Você não tem permissão para excluir o usuário desta Loja.' });
+    //   return;
+    // }
 
     // Excluir o usuário
     await usuario.destroy();
@@ -252,7 +256,7 @@ export const getUsuariosByLoja = async (req: Request, res: Response) => {
 };
 
 
-export const getUsuarios = async (req: CustomRequest, res: Response) => {
+export const getUsuariosMyLoja = async (req: CustomRequest, res: Response) => {
   try {
     const user = req.user; // Pegando os dados do token
     const idLoja = user?.loja; // Obter o id da loja do token
