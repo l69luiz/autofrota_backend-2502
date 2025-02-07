@@ -5,7 +5,18 @@ import { Usuario } from '../models/usuarios';
 import { Loja } from '../models/lojas';
 
 
-export const getUsuarios = async (req: Request, res: Response) => {
+interface CustomRequest extends Request {
+  user?: {
+    id: number;
+    //grupo: string;
+    loja: string;
+    //Lojas_idLoja: number;
+    permissoes: string[]; // Array de permissões
+  };
+}
+
+
+export const getUsuarios3 = async (req: Request, res: Response) => {
   try {
     
     const usuarios = await Usuario.findAll({
@@ -21,7 +32,7 @@ export const getUsuarios = async (req: Request, res: Response) => {
     res.json(usuarios);
   } catch (error) {
     res.status(500).json({ message: 'Erro ao buscar usuários' });
-    console.log(error);
+    //console.log(error);
   }
 };
 
@@ -60,14 +71,22 @@ export const createUsuario = async (req: Request, res: Response): Promise<void> 
 };
 
 // Função para excluir um usuário
-export const deleteUsuario = async (req: Request, res: Response): Promise<void> => {
+export const deleteUsuario = async (req: CustomRequest, res: Response): Promise<void> => {
   try {
     const { idUsuario } = req.params;
+    const user = req.user; // Pegando os dados do token
+    const idLoja = user?.loja; // Obter o id da loja do token
+    const idLojaNumber = Number(idLoja);
 
-    // Verificar se o usuário existe
+    // Verificar se o idLoja do token e o Lojas_idLoja do usuário coincidem
     const usuario = await Usuario.findOne({ where: { idUsuario } });
     if (!usuario) {
       res.status(404).json({ message: 'Usuário não encontrado' });
+      return;
+    }
+
+    if (usuario.Lojas_idLoja !== idLojaNumber) {
+      res.status(403).json({ message: 'Você não tem permissão para excluir este usuário.' });
       return;
     }
 
@@ -76,8 +95,10 @@ export const deleteUsuario = async (req: Request, res: Response): Promise<void> 
     res.status(200).json({ message: 'Usuário excluído com sucesso' });
   } catch (error) {
     res.status(500).json({ message: 'Erro ao excluir usuário' });
+    console.log(error);
   }
 };
+
 
 // Função para atualizar os dados do usuário
 export const updateUsuario = async (req: Request, res: Response): Promise<void> => {
@@ -201,8 +222,12 @@ export const getUsuarioById = async (req: Request, res: Response): Promise<void>
   }
 };
 
+
 export const getUsuariosByLoja = async (req: Request, res: Response) => {
+  
   const { Lojas_idLoja } = req.params;
+  
+   // Pegando os dados do token
 
   try {
     const usuarios = await Usuario.findAll({
@@ -223,5 +248,32 @@ export const getUsuariosByLoja = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ message: 'Erro ao buscar usuários por loja.' });
     console.log(error);
+  }
+};
+
+
+export const getUsuarios = async (req: CustomRequest, res: Response) => {
+  try {
+    const user = req.user; // Pegando os dados do token
+    const idLoja = user?.loja; // Obter o id da loja do token
+    
+    // Se houver `Lojas_idLoja` no body, use-o, senão use o idLoja do token
+    const whereCondition = idLoja ? { Lojas_idLoja: idLoja } : {};
+    
+
+    // Aqui você pode utilizar os dados do token, como o ID do usuário ou outras informações
+    const usuarios = await Usuario.findAll({
+      where: whereCondition,
+      include: {
+        model: Loja,
+        as: "loja", // Relacionamento com a loja
+        attributes: ['idLoja', 'Nome_Loja'] // Selecionando os atributos da loja
+      }
+    });
+
+    res.json(usuarios);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao buscar usuários' });
+    //console.log(error);
   }
 };

@@ -10,8 +10,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   
   try {
     const usuario = await Usuario.findOne({ where: { Email } });
-    console.log(usuario, 'Usuario TTTTTTTTTTTT');
-    
+
     if (!usuario) {
       res.status(400).json({ message: 'Usuário não encontrado' });
       return;
@@ -28,25 +27,30 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       where: { Usuarios_idUsuario: usuario.idUsuario }
     });
 
-   
-    // Criar um array de permissões
-    const permissoesArray = permissoes.map((permissao: any) => {
-      const permissoesUsuario = [];
-      if (permissao.ler) permissoesUsuario.push('ler');
-      if (permissao.atualizar) permissoesUsuario.push('atualizar');
-      if (permissao.criar) permissoesUsuario.push('criar');
-      if (permissao.deletar) permissoesUsuario.push('deletar');
-      return permissoesUsuario;
-    }).flat(); // Flatten para uma lista única de permissões
+    // Criar um objeto para armazenar as permissões por tabela
+    const permissoesPorTabela = permissoes.reduce((acc: any, permissao: any) => {
+      const tabela = permissao.NomeTabela; // Usar o nome correto da coluna
 
-    // Criar token incluindo o grupo e permissões
+      if (!acc[tabela]) {
+        acc[tabela] = [];
+      }
+
+      const permissoesTabela = [];
+      if (permissao.ler) permissoesTabela.push('ler');
+      if (permissao.atualizar) permissoesTabela.push('atualizar');
+      if (permissao.criar) permissoesTabela.push('criar');
+      if (permissao.deletar) permissoesTabela.push('deletar');
+
+      acc[tabela] = [...acc[tabela], ...permissoesTabela];
+      return acc;
+    }, {});
+
+    // Criar o token com as permissões organizadas por tabela
     const token = jwt.sign(
       { 
         id: usuario.idUsuario, 
-        //grupo: usuario.Grupo,
-        loja: usuario.Lojas_idLoja,
-        //loja: usuario.Lojas_idLoja,
-        permissoes: permissoesArray 
+        loja: usuario.Lojas_idLoja, 
+        permissoes: permissoesPorTabela // Passar as permissões agrupadas por tabela
       },
       process.env.JWT_SECRET!, 
       { expiresIn: '1h' }
@@ -55,10 +59,5 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     res.json({ token });
   } catch (error) {
     res.status(500).json({ message: 'Erro ao autenticar usuário' });
-    
   }
 };
-
-
-
-
