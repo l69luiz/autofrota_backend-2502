@@ -10,6 +10,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   
   try {
     const usuario = await Usuario.findOne({ where: { Email } });
+    console.log(usuario, 'Usuario TTTTTTTTTTTT');
     
     if (!usuario) {
       res.status(400).json({ message: 'Usuário não encontrado' });
@@ -42,7 +43,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const token = jwt.sign(
       { 
         id: usuario.idUsuario, 
-        grupo: usuario.Grupo, 
+        //grupo: usuario.Grupo,
+        loja: usuario.Lojas_idLoja,
+        //loja: usuario.Lojas_idLoja,
         permissoes: permissoesArray 
       },
       process.env.JWT_SECRET!, 

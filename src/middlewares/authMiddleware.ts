@@ -5,14 +5,16 @@ import { Permissoes } from '../models/permissoes'; // Supondo que você tenha um
 
 interface JwtPayload {
   id: number;
-  grupo: string;
+  //grupo: string;
+  loja: string;
   permissoes: string[]; // Array de permissões do usuário
 }
 
 interface CustomRequest extends Request {
   user?: {
     id: number;
-    grupo: string;
+    //grupo: string;
+    loja: string;
     permissoes: string[]; // Array de permissões
   };
 }
@@ -31,7 +33,8 @@ const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction): 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
     req.user = {
       id: decoded.id,
-      grupo: decoded.grupo,
+      //grupo: decoded.grupo,
+      loja: decoded.loja,
       permissoes: decoded.permissoes, // Armazenando as permissões no Request
     };
 
@@ -60,10 +63,11 @@ const checkPermission = (nomeTabela: string, acao: string) => {
       where: {
         Usuarios_idUsuario: usuario.id,
         NomeTabela: nomeTabela
+
         
       }
     });
-    console.log(permissoes);
+    //console.log(permissoes);
 
     if (!permissoes || permissoes.length === 0) {
       res.status(403).json({ message: 'Permissão insuficiente para acessar essa tabela.' });

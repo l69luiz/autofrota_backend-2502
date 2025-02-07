@@ -4,18 +4,24 @@ import bcrypt from 'bcryptjs';
 import { Usuario } from '../models/usuarios';
 import { Loja } from '../models/lojas';
 
+
 export const getUsuarios = async (req: Request, res: Response) => {
   try {
+    
     const usuarios = await Usuario.findAll({
       include: {
         model: Loja,
         as: "loja", // Relacionamento com a loja
-        attributes: ['idLoja', 'Nome'] // Selecionando os atributos da loja
+        attributes: ['idLoja', 'Nome_Loja'] // Selecionando os atributos da loja
+        
       }
+
+
     });
     res.json(usuarios);
   } catch (error) {
     res.status(500).json({ message: 'Erro ao buscar usuários' });
+    console.log(error);
   }
 };
 
@@ -151,6 +157,7 @@ export const getUsuarioByCpfCnpj = async (req: Request, res: Response): Promise<
     res.status(200).json(usuarioSemSenha); // Retorna o usuário sem a senha
   } catch (error) {
     res.status(500).json({ message: 'Erro ao buscar usuário pelo CPF/CNPJ' });
+
   }
 };
 
@@ -194,3 +201,27 @@ export const getUsuarioById = async (req: Request, res: Response): Promise<void>
   }
 };
 
+export const getUsuariosByLoja = async (req: Request, res: Response) => {
+  const { Lojas_idLoja } = req.params;
+
+  try {
+    const usuarios = await Usuario.findAll({
+      where: { Lojas_idLoja }, // Filtrando pelo id da loja
+      include: {
+        model: Loja,
+        as: "loja", // Relacionamento com a loja
+        attributes: ['idLoja', 'Nome_Loja'] // Selecionando os atributos da loja
+      }
+    });
+
+    if (usuarios.length === 0) {
+      res.status(404).json({ message: 'Nenhum usuário encontrado para esta loja.' });
+      return;
+    }
+
+    res.json(usuarios);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao buscar usuários por loja.' });
+    console.log(error);
+  }
+};
