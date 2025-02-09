@@ -134,11 +134,16 @@ const checkPermission = (nomeTabela: string, acao: string) => {
 
 
     // Carregar as permissões do banco de dados
-    const permissoes = await Permissoes.findAll({
-
+    console.log(idUsuarioToken);
+    const permissoes = await Permissoes.findAll(
+      
+      
+      {
+      
       where: {
         Usuarios_idUsuario: idUsuarioToken,
-        NomeTabela: nomeTabela
+        //NomeTabela: nomeTabela
+        
 
 
       }

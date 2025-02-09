@@ -49,6 +49,7 @@ export const createVenda = [
       res.status(201).json(venda);
     } catch (error) {
       res.status(500).json({ message: 'Erro ao criar venda' });
+      console.log(error);
     }
   },
 ];

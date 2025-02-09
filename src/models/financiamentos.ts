@@ -16,8 +16,7 @@ export class Financiamento extends Model {
   public InstituicaoFinanceira!: string | null;
   public Clientes_idCliente!: number;
   public Vendas_idVenda!: number;
-  public createdAt!: Date;
-  public updateAt!: Date;
+
 }
 
 Financiamento.init(
@@ -71,16 +70,7 @@ Financiamento.init(
         key: "idVenda",
       },
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updateAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
+   
   },
   {
     sequelize,

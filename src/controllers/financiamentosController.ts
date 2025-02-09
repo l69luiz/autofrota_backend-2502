@@ -49,6 +49,7 @@ export const createFinanciamento = [
       res.status(201).json(financiamento);
     } catch (error) {
       res.status(500).json({ message: 'Erro ao criar financiamento' });
+      console.log(error);
     }
   },
 ];

@@ -25,9 +25,8 @@ export const createContrato = [
         Dt_inicial,
         Dt_Final,
         Vr_Semanal,
-        vR_Diario,
-        Contratocol,
-        idVeiculoFK,
+        Vr_Diario,
+        Veiculo_idVeiculo,
         Usuarios_idUsuario,
       } = req.body;
 
@@ -36,15 +35,15 @@ export const createContrato = [
         Dt_inicial,
         Dt_Final,
         Vr_Semanal,
-        vR_Diario,
-        Contratocol,
-        idVeiculoFK,
+        Vr_Diario,
+        Veiculo_idVeiculo,
         Usuarios_idUsuario,
       });
 
       res.status(201).json(contrato);
     } catch (error) {
       res.status(500).json({ message: 'Erro ao criar contrato' });
+      
     }
   },
 ];
@@ -80,9 +79,8 @@ export const updateContrato = [
         Dt_inicial,
         Dt_Final,
         Vr_Semanal,
-        vR_Diario,
-        Contratocol,
-        idVeiculoFK,
+        Vr_Diario,
+        Veiculo_idVeiculo,
         Usuarios_idUsuario,
       } = req.body;
 
@@ -95,9 +93,8 @@ export const updateContrato = [
       contrato.Dt_inicial = Dt_inicial || contrato.Dt_inicial;
       contrato.Dt_Final = Dt_Final || contrato.Dt_Final;
       contrato.Vr_Semanal = Vr_Semanal || contrato.Vr_Semanal;
-      contrato.vR_Diario = vR_Diario || contrato.vR_Diario;
-      contrato.Contratocol = Contratocol || contrato.Contratocol;
-      contrato.idVeiculoFK = idVeiculoFK || contrato.idVeiculoFK;
+      contrato.Vr_Diario = Vr_Diario || contrato.Vr_Diario;
+      contrato.Veiculo_idVeiculo = Veiculo_idVeiculo || contrato.Veiculo_idVeiculo;
       contrato.Usuarios_idUsuario = Usuarios_idUsuario || contrato.Usuarios_idUsuario;
 
       await contrato.save();

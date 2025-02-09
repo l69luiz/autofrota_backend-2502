@@ -9,9 +9,9 @@ interface ContratoAttributes {
   Dt_inicial: Date;
   Dt_Final: Date;
   Vr_Semanal: number;
-  vR_Diario: number;
+  Vr_Diario: number;
   Contratocol: string;
-  idVeiculoFK: number;
+  Veiculo_idVeiculo: number;
   Usuarios_idUsuario: number;
 }
 
@@ -20,9 +20,8 @@ export class Contrato extends Model {
   public Dt_inicial!: Date;
   public Dt_Final!: Date;
   public Vr_Semanal!: number;
-  public vR_Diario!: number;
-  public Contratocol!: string;
-  public idVeiculoFK!: number;
+  public Vr_Diario!: number;
+  public Veiculo_idVeiculo!: number;
   public Usuarios_idUsuario!: number;
 }
 
@@ -45,15 +44,12 @@ Contrato.init(
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    vR_Diario: {
+    Vr_Diario: {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    Contratocol: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    idVeiculoFK: {
+   
+    Veiculo_idVeiculo: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
@@ -70,4 +66,4 @@ Contrato.init(
 
 // Relacionamentos
 Contrato.belongsTo(Usuario, { foreignKey: 'Usuarios_idUsuario' });
-Contrato.belongsTo(Veiculo, { foreignKey: 'idVeiculoFK' });
+Contrato.belongsTo(Veiculo, { foreignKey: 'Veiculo_idVeiculo' });
