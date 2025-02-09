@@ -2,7 +2,7 @@
 
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../config/database";
-//import { Estoque } from "./estoques"; // Import do model Estoque
+import { Estoque } from "./estoques"; // Importando o model Estoque
 
 export class Loja extends Model {
   public idLoja!: number;
@@ -29,7 +29,7 @@ Loja.init(
       allowNull: false,
     },
     Telefone_Loja: {
-      type: DataTypes.STRING(15),
+      type: DataTypes.STRING(20), // Ajustando para o tamanho correto
       allowNull: true,
     },
     Email_Loja: {
@@ -37,7 +37,7 @@ Loja.init(
       allowNull: true,
     },
     CNPJ_Loja: {
-      type: DataTypes.STRING(18),
+      type: DataTypes.STRING(20), // Ajustando para o tamanho correto
       allowNull: false,
       unique: true,
     },
@@ -46,12 +46,20 @@ Loja.init(
     sequelize,
     modelName: "Loja",
     tableName: "Lojas",
-    timestamps: true,
   }
 );
 
-// Relacionamento com Estoque (Uma loja pode ter vários estoques)
+// // Relacionamento com Estoque (Uma loja pode ter vários estoques)
 // Loja.hasMany(Estoque, {
 //   foreignKey: "Lojas_idLoja",
 //   as: "estoques",
 // });
+
+ //Definindo o relacionamento inverso: um estoque pertence a uma loja
+//  Estoque.belongsTo(Loja, {
+//    foreignKey: "Lojas_idLoja",
+//    as: "loja",
+//   });
+
+//export default Loja;
+

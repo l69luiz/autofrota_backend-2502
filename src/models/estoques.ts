@@ -39,7 +39,7 @@ Estoque.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Lojas', // Nome da tabela Lojas
+        model: Loja, 
         key: 'idLoja',
       },
       onUpdate: 'CASCADE',
@@ -62,7 +62,7 @@ Estoque.init(
   }
 );
 
-// Relacionamento com Lojas
+//Relacionamento com Lojas
 Estoque.belongsTo(Loja, {
   foreignKey: "Lojas_idLoja",
   as: "loja",

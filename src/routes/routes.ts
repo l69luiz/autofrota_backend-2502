@@ -1,3 +1,4 @@
+//src/routes/routes.ts
 import express from 'express';
 import { login } from '../controllers/authController';
 import { 
@@ -11,6 +12,15 @@ import {
   getUsuariosByLoja,
   getUsuariosMyLoja 
 } from '../controllers/userController';
+
+import { 
+  getLojas, 
+  createLoja, 
+  updateLoja, 
+  deleteLoja, 
+  getLojaById 
+} from '../controllers/lojasController'; // Importando as funções de lojas
+
 import { 
   getVeiculos, 
   createVeiculo, 
@@ -186,5 +196,12 @@ router.post('/vistorias', authMiddleware, checkPermission('Vistoria', 'criar'), 
 router.get('/vistorias/:idVistoria', authMiddleware, checkPermission('Vistoria', 'ler'), getVistoriaById); // Verificando permissão 'ler' para a tabela 'Vistorias'
 router.put('/vistorias/:idVistoria', authMiddleware, checkPermission('Vistoria', 'atualizar'), updateVistoria); // Verificando permissão 'atualizar' para a tabela 'Vistorias'
 router.delete('/vistorias/:idVistoria', authMiddleware, checkPermission('Vistoria', 'deletar'), deleteVistoria); // Verificando permissão 'deletar' para a tabela 'Vistorias'
+
+// Rotas de lojas
+router.get('/lojas', authMiddleware, checkPermission('Loja', 'ler'), getLojas); // Verificando permissão 'ler' para a tabela 'Lojas'
+router.post('/lojas', authMiddleware, checkPermission('Loja', 'criar'), createLoja); // Verificando permissão 'criar' para a tabela 'Lojas'
+router.get('/lojas/:idLoja', authMiddleware, checkPermission('Loja', 'ler'), getLojaById); // Verificando permissão 'ler' para a tabela 'Lojas'
+router.put('/lojas/:idLoja', authMiddleware, checkPermission('Loja', 'atualizar'), updateLoja); // Verificando permissão 'atualizar' para a tabela 'Lojas'
+router.delete('/lojas/:idLoja', authMiddleware, checkPermission('Loja', 'deletar'), deleteLoja); // Verificando permissão 'deletar' para a tabela 'Lojas'
 
 export default router;

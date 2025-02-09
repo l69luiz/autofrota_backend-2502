@@ -253,12 +253,12 @@ export const getUsuariosMyLoja = async (req: CustomRequest, res: Response) => {
     const whereCondition = idLoja ? { Lojas_idLoja: idLoja } : {};
       
     const usuarios = await Usuario.findAll({
-      //where: whereCondition,
+      where: whereCondition,
       include: {
         model: Loja,
         as: "loja", // Relacionamento com a loja
         attributes: ['idLoja', 'Nome_Loja'], // Selecionando os atributos da loja
-        where: whereCondition
+        
       }
     });
 
