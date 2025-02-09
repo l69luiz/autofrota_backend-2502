@@ -1,4 +1,3 @@
-// src/routes/routes.ts
 import express from 'express';
 import { login } from '../controllers/authController';
 import { 
@@ -27,8 +26,70 @@ import {
   deleteCliente, 
   getClienteByCPF_CNPJ, 
   getClienteById
-  
 } from '../controllers/clientesController'; // Importando as funções de cliente
+import { 
+  getEstoques, 
+  createEstoque, 
+  updateEstoque, 
+  deleteEstoque, 
+  getEstoqueById 
+} from '../controllers/estoquesController'; // Importando as funções de estoque
+import { 
+  getContratos, 
+  createContrato, 
+  updateContrato, 
+  deleteContrato, 
+  getContratoById 
+} from '../controllers/contratosController'; // Importando as funções de contratos
+import { 
+  getFinanciamentos, 
+  createFinanciamento, 
+  updateFinanciamento, 
+  deleteFinanciamento, 
+  getFinanciamentoById 
+} from '../controllers/financiamentosController'; // Importando as funções de financiamentos
+import { 
+  getManutencoes, 
+  createManutencao, 
+  updateManutencao, 
+  deleteManutencao, 
+  getManutencaoById 
+} from '../controllers/manutencoesController'; // Importando as funções de manutenção
+import { 
+  getPagamentos, 
+  createPagamento, 
+  updatePagamento, 
+  deletePagamento, 
+  getPagamentoById 
+} from '../controllers/pagamentosController'; // Importando as funções de pagamentos
+import { 
+  getPermissoes, 
+  createPermissao, 
+  updatePermissao, 
+  deletePermissao, 
+  getPermissaoById 
+} from '../controllers/permissoesController'; // Importando as funções de permissões
+import { 
+  getTestDrives, 
+  createTestDrive, 
+  updateTestDrive, 
+  deleteTestDrive, 
+  getTestDriveById 
+} from '../controllers/testDrivesController'; // Importando as funções de test drives
+import { 
+  getVendas, 
+  createVenda, 
+  updateVenda, 
+  deleteVenda, 
+  getVendaById 
+} from '../controllers/vendasController'; // Importando as funções de vendas
+import { 
+  getVistorias, 
+  createVistoria, 
+  updateVistoria, 
+  deleteVistoria, 
+  getVistoriaById 
+} from '../controllers/vistoriasController'; // Importando as funções de vistorias
 import { authMiddleware, checkPermission } from '../middlewares/authMiddleware';
 
 const router = express.Router();
@@ -62,5 +123,68 @@ router.get('/clientes/cpfcnpj/:CPF_CNPJ', authMiddleware, checkPermission('Clien
 router.get('/clientes/:idCliente', authMiddleware, checkPermission('Clientes', 'ler'), getClienteById); // Verificando permissão 'ler' para a tabela 'Clientes'
 router.put('/clientes/:idCliente', authMiddleware, checkPermission('Clientes', 'atualizar'), updateCliente); // Verificando permissão 'atualizar' para a tabela 'Clientes'
 router.delete('/clientes/:idCliente', authMiddleware, checkPermission('Clientes', 'deletar'), deleteCliente); // Verificando permissão 'deletar' para a tabela 'Clientes'
+
+// Rotas de estoque
+router.get('/estoques', authMiddleware, checkPermission('Estoque', 'ler'), getEstoques); // Verificando permissão 'ler' para a tabela 'Estoques'
+router.post('/estoques', authMiddleware, checkPermission('Estoque', 'criar'), createEstoque); // Verificando permissão 'criar' para a tabela 'Estoques'
+router.get('/estoques/:idEstoque', authMiddleware, checkPermission('Estoque', 'ler'), getEstoqueById); // Verificando permissão 'ler' para a tabela 'Estoques'
+router.put('/estoques/:idEstoque', authMiddleware, checkPermission('Estoque', 'atualizar'), updateEstoque); // Verificando permissão 'atualizar' para a tabela 'Estoques'
+router.delete('/estoques/:idEstoque', authMiddleware, checkPermission('Estoque', 'deletar'), deleteEstoque); // Verificando permissão 'deletar' para a tabela 'Estoques'
+
+// Rotas de contratos
+router.get('/contratos', authMiddleware, checkPermission('Contrato', 'ler'), getContratos); // Verificando permissão 'ler' para a tabela 'Contratos'
+router.post('/contratos', authMiddleware, checkPermission('Contrato', 'criar'), createContrato); // Verificando permissão 'criar' para a tabela 'Contratos'
+router.get('/contratos/:idContrato', authMiddleware, checkPermission('Contrato', 'ler'), getContratoById); // Verificando permissão 'ler' para a tabela 'Contratos'
+router.put('/contratos/:idContrato', authMiddleware, checkPermission('Contrato', 'atualizar'), updateContrato); // Verificando permissão 'atualizar' para a tabela 'Contratos'
+router.delete('/contratos/:idContrato', authMiddleware, checkPermission('Contrato', 'deletar'), deleteContrato); // Verificando permissão 'deletar' para a tabela 'Contratos'
+
+// Rotas de financiamentos
+router.get('/financiamentos', authMiddleware, checkPermission('Financiamento', 'ler'), getFinanciamentos); // Verificando permissão 'ler' para a tabela 'Financiamentos'
+router.post('/financiamentos', authMiddleware, checkPermission('Financiamento', 'criar'), createFinanciamento); // Verificando permissão 'criar' para a tabela 'Financiamentos'
+router.get('/financiamentos/:idFinanciamento', authMiddleware, checkPermission('Financiamento', 'ler'), getFinanciamentoById); // Verificando permissão 'ler' para a tabela 'Financiamentos'
+router.put('/financiamentos/:idFinanciamento', authMiddleware, checkPermission('Financiamento', 'atualizar'), updateFinanciamento); // Verificando permissão 'atualizar' para a tabela 'Financiamentos'
+router.delete('/financiamentos/:idFinanciamento', authMiddleware, checkPermission('Financiamento', 'deletar'), deleteFinanciamento); // Verificando permissão 'deletar' para a tabela 'Financiamentos'
+
+// Rotas de manutenções
+router.get('/manutencao', authMiddleware, checkPermission('Manutencao', 'ler'), getManutencoes); // Verificando permissão 'ler' para a tabela 'Manutencao'
+router.post('/manutencao', authMiddleware, checkPermission('Manutencao', 'criar'), createManutencao); // Verificando permissão 'criar' para a tabela 'Manutencao'
+router.get('/manutencao/:idManutencao', authMiddleware, checkPermission('Manutencao', 'ler'), getManutencaoById); // Verificando permissão 'ler' para a tabela 'Manutencao'
+router.put('/manutencao/:idManutencao', authMiddleware, checkPermission('Manutencao', 'atualizar'), updateManutencao); // Verificando permissão 'atualizar' para a tabela 'Manutencao'
+router.delete('/manutencao/:idManutencao', authMiddleware, checkPermission('Manutencao', 'deletar'), deleteManutencao); // Verificando permissão 'deletar' para a tabela 'Manutencao'
+
+// Rotas de pagamentos
+router.get('/pagamentos', authMiddleware, checkPermission('Pagamento', 'ler'), getPagamentos); // Verificando permissão 'ler' para a tabela 'Pagamentos'
+router.post('/pagamentos', authMiddleware, checkPermission('Pagamento', 'criar'), createPagamento); // Verificando permissão 'criar' para a tabela 'Pagamentos'
+router.get('/pagamentos/:idPagamento', authMiddleware, checkPermission('Pagamento', 'ler'), getPagamentoById); // Verificando permissão 'ler' para a tabela 'Pagamentos'
+router.put('/pagamentos/:idPagamento', authMiddleware, checkPermission('Pagamento', 'atualizar'), updatePagamento); // Verificando permissão 'atualizar' para a tabela 'Pagamentos'
+router.delete('/pagamentos/:idPagamento', authMiddleware, checkPermission('Pagamento', 'deletar'), deletePagamento); // Verificando permissão 'deletar' para a tabela 'Pagamentos'
+
+// Rotas de permissões
+router.get('/permissoes', authMiddleware, checkPermission('Permissao', 'ler'), getPermissoes); // Verificando permissão 'ler' para a tabela 'Permissoes'
+router.post('/permissoes', authMiddleware, checkPermission('Permissao', 'criar'), createPermissao); // Verificando permissão 'criar' para a tabela 'Permissoes'
+router.get('/permissoes/:idPermissao', authMiddleware, checkPermission('Permissao', 'ler'), getPermissaoById); // Verificando permissão 'ler' para a tabela 'Permissoes'
+router.put('/permissoes/:idPermissao', authMiddleware, checkPermission('Permissao', 'atualizar'), updatePermissao); // Verificando permissão 'atualizar' para a tabela 'Permissoes'
+router.delete('/permissoes/:idPermissao', authMiddleware, checkPermission('Permissao', 'deletar'), deletePermissao); // Verificando permissão 'deletar' para a tabela 'Permissoes'
+
+// Rotas de test drives
+router.get('/testdrives', authMiddleware, checkPermission('TestDrive', 'ler'), getTestDrives); // Verificando permissão 'ler' para a tabela 'TestDrives'
+router.post('/testdrives', authMiddleware, checkPermission('TestDrive', 'criar'), createTestDrive); // Verificando permissão 'criar' para a tabela 'TestDrives'
+router.get('/testdrives/:idTestDrive', authMiddleware, checkPermission('TestDrive', 'ler'), getTestDriveById); // Verificando permissão 'ler' para a tabela 'TestDrives'
+router.put('/testdrives/:idTestDrive', authMiddleware, checkPermission('TestDrive', 'atualizar'), updateTestDrive); // Verificando permissão 'atualizar' para a tabela 'TestDrives'
+router.delete('/testdrives/:idTestDrive', authMiddleware, checkPermission('TestDrive', 'deletar'), deleteTestDrive); // Verificando permissão 'deletar' para a tabela 'TestDrives'
+
+// Rotas de vendas
+router.get('/vendas', authMiddleware, checkPermission('Venda', 'ler'), getVendas); // Verificando permissão 'ler' para a tabela 'Vendas'
+router.post('/vendas', authMiddleware, checkPermission('Venda', 'criar'), createVenda); // Verificando permissão 'criar' para a tabela 'Vendas'
+router.get('/vendas/:idVenda', authMiddleware, checkPermission('Venda', 'ler'), getVendaById); // Verificando permissão 'ler' para a tabela 'Vendas'
+router.put('/vendas/:idVenda', authMiddleware, checkPermission('Venda', 'atualizar'), updateVenda); // Verificando permissão 'atualizar' para a tabela 'Vendas'
+router.delete('/vendas/:idVenda', authMiddleware, checkPermission('Venda', 'deletar'), deleteVenda); // Verificando permissão 'deletar' para a tabela 'Vendas'
+
+// Rotas de vistorias
+router.get('/vistorias', authMiddleware, checkPermission('Vistoria', 'ler'), getVistorias); // Verificando permissão 'ler' para a tabela 'Vistorias'
+router.post('/vistorias', authMiddleware, checkPermission('Vistoria', 'criar'), createVistoria); // Verificando permissão 'criar' para a tabela 'Vistorias'
+router.get('/vistorias/:idVistoria', authMiddleware, checkPermission('Vistoria', 'ler'), getVistoriaById); // Verificando permissão 'ler' para a tabela 'Vistorias'
+router.put('/vistorias/:idVistoria', authMiddleware, checkPermission('Vistoria', 'atualizar'), updateVistoria); // Verificando permissão 'atualizar' para a tabela 'Vistorias'
+router.delete('/vistorias/:idVistoria', authMiddleware, checkPermission('Vistoria', 'deletar'), deleteVistoria); // Verificando permissão 'deletar' para a tabela 'Vistorias'
 
 export default router;

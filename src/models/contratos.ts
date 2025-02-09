@@ -15,7 +15,7 @@ interface ContratoAttributes {
   Usuarios_idUsuario: number;
 }
 
-export class Contrato extends Model<ContratoAttributes> implements ContratoAttributes {
+export class Contrato extends Model {
   public idContrato!: number;
   public Dt_inicial!: Date;
   public Dt_Final!: Date;

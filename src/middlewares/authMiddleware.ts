@@ -91,11 +91,6 @@ const checkPermission = (nomeTabela: string, acao: string) => {
       }
       
 
-      //console.log("URL: ", idUsuarioURL);
-      // console.log("Token: ", idUsuarioToken);
-      //console.log("Está no Then do if 2");
-      //const dadosUserURL = await Usuario.findOne({ where: { idUsuario: idUsuarioURL } });
-
       if (idLojaToken !== dadosUserURL?.Lojas_idLoja ) {
         if (usuarioNoBanco.Grupo === 'Administrador'){
           //console.log("Está no Then do Adminsitrador");
@@ -149,7 +144,7 @@ const checkPermission = (nomeTabela: string, acao: string) => {
       }
     });
     
-    
+
 
     if (!permissoes || permissoes.length === 0) {
       res.status(403).json({ message: 'Permissão insuficiente para acessar essa tabela.' });
