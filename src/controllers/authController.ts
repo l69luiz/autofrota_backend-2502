@@ -16,6 +16,11 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
+       if (usuario.Status !== true) {
+      res.status(400).json({ message: 'Usuário revogado.' });
+      return;
+    }
+
     const senhaValida = await bcrypt.compare(Senha, usuario.Senha);
     if (!senhaValida) {
       res.status(401).json({ message: 'Senha incorreta' });
@@ -53,7 +58,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         permissoes: permissoesPorTabela // Passar as permissões agrupadas por tabela
       },
       process.env.JWT_SECRET!, 
-      { expiresIn: '1h' }
+      { expiresIn: '1d' }
     );
 
     res.json({ token });

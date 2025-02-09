@@ -8,9 +8,7 @@ import { Loja } from '../models/lojas';
 interface CustomRequest extends Request {
   user?: {
     id: number;
-    //grupo: string;
     loja: string;
-    //Lojas_idLoja: number;
     permissoes: string[]; // Array de permissões
   };
 }
@@ -35,8 +33,6 @@ export const getUsuarios = async (req: Request, res: Response) => {
     //console.log(error);
   }
 };
-
-
 
 
 export const createUsuario = async (req: Request, res: Response): Promise<void> => {
@@ -79,20 +75,13 @@ export const deleteUsuario = async (req: CustomRequest, res: Response): Promise<
     const { idUsuario } = req.params;
     
 
-    // Verificar se o idLoja do token e o Lojas_idLoja do usuário coincidem
+    // Verificar se exite o usuario
     const usuario = await Usuario.findOne({ where: { idUsuario } });
     if (!usuario) {
       res.status(404).json({ message: 'Usuário não encontrado' });
       return;
     }
-    // Verificar se o idLoja do token e o Lojas_idLoja do usuário coincidem
-    // const user = req.user; // Pegando os dados do token
-    // const idLoja = user?.loja; // Obter o id da loja do token
-    // const idLojaNumber = Number(idLoja);
-    // if (usuario.Lojas_idLoja !== idLojaNumber) {
-    //   res.status(403).json({ message: 'Você não tem permissão para excluir o usuário desta Loja.' });
-    //   return;
-    // }
+    
 
     // Excluir o usuário
     await usuario.destroy();
@@ -261,17 +250,15 @@ export const getUsuariosMyLoja = async (req: CustomRequest, res: Response) => {
     const user = req.user; // Pegando os dados do token
     const idLoja = user?.loja; // Obter o id da loja do token
     
-    // Se houver `Lojas_idLoja` no body, use-o, senão use o idLoja do token
     const whereCondition = idLoja ? { Lojas_idLoja: idLoja } : {};
-    
-
-    // Aqui você pode utilizar os dados do token, como o ID do usuário ou outras informações
+      
     const usuarios = await Usuario.findAll({
-      where: whereCondition,
+      //where: whereCondition,
       include: {
         model: Loja,
         as: "loja", // Relacionamento com a loja
-        attributes: ['idLoja', 'Nome_Loja'] // Selecionando os atributos da loja
+        attributes: ['idLoja', 'Nome_Loja'], // Selecionando os atributos da loja
+        where: whereCondition
       }
     });
 

@@ -24,6 +24,7 @@ export class Usuario extends Model {
   public Grupo!: string | null;
   public Data_Demissao!: Date | null;
   public Lojas_idLoja!: number;
+  public Status!: boolean | null;
 }
 
 Usuario.init(
@@ -112,6 +113,12 @@ Usuario.init(
         key: "idLoja",
       },
     },
+    Status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+
+
   },
   {
     sequelize,
