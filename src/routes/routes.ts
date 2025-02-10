@@ -100,6 +100,14 @@ import {
   deleteVistoria, 
   getVistoriaById 
 } from '../controllers/vistoriasController'; // Importando as funções de vistorias
+import {
+  getTipoManutencao,
+  createTipoManutencao,
+  updateTipoManutencao,
+  deleteTipoManutencao,
+  getTipoManutencaoById
+} from '../controllers/tipoManutencaoController'; // Importando as funções do tipo de manutenção
+
 import { authMiddleware, checkPermission } from '../middlewares/authMiddleware';
 
 const router = express.Router();
@@ -203,5 +211,13 @@ router.post('/lojas', authMiddleware, checkPermission('Loja', 'criar'), createLo
 router.get('/lojas/:idLoja', authMiddleware, checkPermission('Loja', 'ler'), getLojaById); // Verificando permissão 'ler' para a tabela 'Lojas'
 router.put('/lojas/:idLoja', authMiddleware, checkPermission('Loja', 'atualizar'), updateLoja); // Verificando permissão 'atualizar' para a tabela 'Lojas'
 router.delete('/lojas/:idLoja', authMiddleware, checkPermission('Loja', 'deletar'), deleteLoja); // Verificando permissão 'deletar' para a tabela 'Lojas'
+
+// Rotas de tipo de manutenção
+router.get('/tipoManutencao', authMiddleware, checkPermission('TipoManutencao', 'ler'), getTipoManutencao); // Verificando permissão 'ler' para a tabela 'TipoManutencao'
+router.post('/tipoManutencao', authMiddleware, checkPermission('TipoManutencao', 'criar'), createTipoManutencao); // Verificando permissão 'criar' para a tabela 'TipoManutencao'
+router.get('/tipoManutencao/:idTipoManutencao', authMiddleware, checkPermission('TipoManutencao', 'ler'), getTipoManutencaoById); // Verificando permissão 'ler' para a tabela 'TipoManutencao'
+router.put('/tipoManutencao/:idTipoManutencao', authMiddleware, checkPermission('TipoManutencao', 'atualizar'), updateTipoManutencao); // Verificando permissão 'atualizar' para a tabela 'TipoManutencao'
+router.delete('/tipoManutencao/:idTipoManutencao', authMiddleware, checkPermission('TipoManutencao', 'deletar'), deleteTipoManutencao); // Verificando permissão 'deletar' para a tabela 'TipoManutencao'
+
 
 export default router;

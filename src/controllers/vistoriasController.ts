@@ -21,6 +21,7 @@ export const getVistorias = [
       res.json(vistorias);
     } catch (error) {
       res.status(500).json({ message: 'Erro ao buscar vistorias' });
+      console.log(error);
     }
   },
 ];

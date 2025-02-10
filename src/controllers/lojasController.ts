@@ -15,6 +15,7 @@ export const getLojas = [
       res.json(lojas);
     } catch (error) {
       res.status(500).json({ message: 'Erro ao buscar lojas' });
+      console.log(error);
     }
   },
 ];

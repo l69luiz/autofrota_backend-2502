@@ -164,7 +164,7 @@ Vistoria.init(
       type: DataTypes.DATE,
       allowNull: false,
     },
-    updatedksAt: {
+    updatedAt: {
       type: DataTypes.DATE,
       allowNull: false,
     },

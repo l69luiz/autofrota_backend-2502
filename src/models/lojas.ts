@@ -49,17 +49,18 @@ Loja.init(
   }
 );
 
-// // Relacionamento com Estoque (Uma loja pode ter vários estoques)
-// Loja.hasMany(Estoque, {
-//   foreignKey: "Lojas_idLoja",
-//   as: "estoques",
-// });
 
- //Definindo o relacionamento inverso: um estoque pertence a uma loja
+// Relacionamento com Estoque (Uma loja pode ter vários estoques)
+//Loja.hasMany(Estoque, {
+//  foreignKey: "Lojas_idLoja",
+//  as: "estoques",
+//});
+
+//Definindo o relacionamento inverso: um estoque pertence a uma loja
 //  Estoque.belongsTo(Loja, {
 //    foreignKey: "Lojas_idLoja",
 //    as: "loja",
 //   });
 
-//export default Loja;
+
 

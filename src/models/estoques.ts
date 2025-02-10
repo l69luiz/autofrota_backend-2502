@@ -35,6 +35,7 @@ Estoque.init(
       type: DataTypes.STRING(45),
       allowNull: true,
     },
+    
     Lojas_idLoja: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -63,7 +64,11 @@ Estoque.init(
 );
 
 //Relacionamento com Lojas
-Estoque.belongsTo(Loja, {
-  foreignKey: "Lojas_idLoja",
-  as: "loja",
-});
+// Estoque.belongsTo(Loja, {
+//   foreignKey: "Lojas_idLoja",
+//   as: "loja",
+// });
+
+
+
+

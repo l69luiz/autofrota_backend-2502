@@ -4,17 +4,15 @@ import bcrypt from 'bcryptjs';
 import { Usuario } from '../models/usuarios';
 import { Loja } from '../models/lojas';
 
-
 interface CustomRequest extends Request {
   user?: {
-    id: number;
-    loja: string;
-    permissoes: string[]; // Array de permissões
+    idUserToken: number;
+    idlojaToken: number;
+    permissoesToken: string[]; // Array de permissões do usuário
   };
 }
 
-
-export const getUsuarios = async (req: Request, res: Response) => {
+export const getUsuarios = async (req: CustomRequest, res: Response) => {
   try {
     
     const usuarios = await Usuario.findAll({
@@ -35,7 +33,7 @@ export const getUsuarios = async (req: Request, res: Response) => {
 };
 
 
-export const createUsuario = async (req: Request, res: Response): Promise<void> => {
+export const createUsuario = async (req: CustomRequest, res: Response): Promise<void> => {
   try {
     const { Nome, CPF_CNPJ, Email, Senha, Lojas_idLoja, ...rest } = req.body;
 
@@ -70,7 +68,7 @@ export const createUsuario = async (req: Request, res: Response): Promise<void> 
 };
 
 // Função para excluir um usuário
-export const deleteUsuario = async (req: CustomRequest, res: Response): Promise<void> => {
+export const deleteUsuario = async (req: Request, res: Response): Promise<void> => {
   try {
     const { idUsuario } = req.params;
     
@@ -94,7 +92,7 @@ export const deleteUsuario = async (req: CustomRequest, res: Response): Promise<
 
 
 // Função para atualizar os dados do usuário
-export const updateUsuario = async (req: Request, res: Response): Promise<void> => {
+export const updateUsuario = async (req: CustomRequest, res: Response): Promise<void> => {
   try {
     const { idUsuario } = req.params;
     const { Nome, CPF_CNPJ, Rua, Numero, Bairro, Cidade, Celular, Celular2, RG, Tipo, Email, Senha, Grupo, Lojas_idLoja } = req.body;
@@ -247,8 +245,8 @@ export const getUsuariosByLoja = async (req: Request, res: Response) => {
 
 export const getUsuariosMyLoja = async (req: CustomRequest, res: Response) => {
   try {
-    const user = req.user; // Pegando os dados do token
-    const idLoja = user?.loja; // Obter o id da loja do token
+    //const dadosuser = req.user; // Pegando os dados do token
+    const idLoja = req.user?.idlojaToken; // Obter o id da loja do token
     
     const whereCondition = idLoja ? { Lojas_idLoja: idLoja } : {};
       
@@ -268,3 +266,18 @@ export const getUsuariosMyLoja = async (req: CustomRequest, res: Response) => {
     //console.log(error);
   }
 };
+
+
+// interface Request extends Request {
+//   user?: {
+//     idUserToken: number;
+//     idLojaToken: number;
+//     permissoestoken: string[]; // Array de permissões
+//   };
+// }
+
+// // interface JwtPayload {
+// //   idUserToken: number;
+// //   idlojaToken: number;
+// //   permissoesToken: string[]; // Array de permissões do usuário
+// // }
