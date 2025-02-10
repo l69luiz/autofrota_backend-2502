@@ -134,7 +134,7 @@ const checkPermission = (nomeTabela: string, acao: string) => {
 
 
     // Carregar as permissões do banco de dados
-    console.log(idUsuarioToken);
+    
     const permissoes = await Permissoes.findAll(
       
       
@@ -149,7 +149,7 @@ const checkPermission = (nomeTabela: string, acao: string) => {
       }
     });
     
-
+    //console.log(permissoes);
 
     if (!permissoes || permissoes.length === 0) {
       res.status(403).json({ message: 'Permissão insuficiente para acessar essa tabela.' });
